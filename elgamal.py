@@ -24,11 +24,11 @@ class Elgamal():
         if (not (len(block) == self.block_size_plaintext)):
             raise BufferError("Invalid block length, expected " + self.block_size_plaintext + " bytes")
 
-        k = random.randrange(1, 4)
+        k = random.randrange(1, self.g)
 
         block_int = int.from_bytes(block, "little")
         encrypted_block_a_int = pow(self.g, k, self.p)
-        encrypted_block_b_int = ((self.y**k) * block_int) % self.p
+        encrypted_block_b_int = (pow(self.y, k, self.p) * block_int) % self.p
         encrypted_block_a = encrypted_block_a_int.to_bytes(self.block_size, "little")
         encrypted_block_b = encrypted_block_b_int.to_bytes(self.block_size, "little")
         return (encrypted_block_a, encrypted_block_b)
