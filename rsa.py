@@ -20,7 +20,7 @@ class RSA():
         if (not hasattr(self, "n") or not hasattr(self, "e")):
             raise AttributeError("No public key")
         if (not (len(block) == self.block_size_plaintext)):
-            raise BufferError("Invalid block length, expected " + self.block_size_plaintext + " bytes")
+            raise BufferError("Invalid block length, expected " + str(self.block_size_plaintext) + " bytes")
 
         block_int = int.from_bytes(block, "little")
         encrypted_block_int = pow(block_int, self.e, self.n)
@@ -31,7 +31,7 @@ class RSA():
         if (not hasattr(self, "n") or not hasattr(self, "d")):
             raise AttributeError("No private key")
         if (not (len(block) == self.block_size)):
-            raise BufferError("Invalid block length, expected " + self.block_size + " bytes")
+            raise BufferError("Invalid block length, expected " + str(self.block_size) + " bytes")
 
         block_int = int.from_bytes(block, "little")
         decrypted_block_int = pow(block_int, self.d, self.n)
