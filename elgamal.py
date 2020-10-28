@@ -7,6 +7,7 @@ class Elgamal():
     def __init__(self, private_key: bytes = None, public_key: bytes = None):
         self.num_bits = 1024
         self.block_size = self.num_bits // 8
+        self.block_size_plaintext = self.block_size - 1
 
         if (public_key != None):
             self.p = int.from_bytes(public_key[:self.block_size], "little")
@@ -26,8 +27,8 @@ class Elgamal():
         block_int = int.from_bytes(block, "little")
         encrypted_block_a_int = pow(self.g, k, self.p)
         encrypted_block_b_int = ((self.y**k) * block_int) % self.p
-        encrypted_block_a = encrypted_block_a_int.to_bytes(len(block), "little")
-        encrypted_block_b = encrypted_block_b_int.to_bytes(len(block), "little")
+        encrypted_block_a = encrypted_block_a_int.to_bytes(self.block_size, "little")
+        encrypted_block_b = encrypted_block_b_int.to_bytes(self.block_size, "little")
         return (encrypted_block_a, encrypted_block_b)
 
     def decrypt_block(self, block: (bytes, bytes)) -> bytes:
@@ -38,7 +39,7 @@ class Elgamal():
         block_b_int = int.from_bytes(block[1], "little")
         ax_inverse = pow(block_a_int, self.p-1-self.x, self.p)
         decrypted_block_int = (block_b_int * ax_inverse) % self.p
-        decrypted_block = decrypted_block_int.to_bytes(len(block[1]), "little")
+        decrypted_block = decrypted_block_int.to_bytes(self.block_size_plaintext, "little")
         return decrypted_block
 
     def get_private_key(self) -> bytes:

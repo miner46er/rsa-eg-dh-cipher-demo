@@ -4,6 +4,7 @@ class RSA():
     def __init__(self, private_key: bytes = None, public_key: bytes = None):
         self.num_bits = 1024
         self.block_size = self.num_bits // 8
+        self.block_size_plaintext = self.block_size - 1
 
         self.e = pow(2, 16) + 1
 
@@ -21,7 +22,7 @@ class RSA():
 
         block_int = int.from_bytes(block, "little")
         encrypted_block_int = pow(block_int, self.e, self.n)
-        encrypted_block = encrypted_block_int.to_bytes(len(block), "little")
+        encrypted_block = encrypted_block_int.to_bytes(self.block_size, "little")
         return encrypted_block
 
     def decrypt_block(self, block: bytes) -> bytes:
@@ -30,7 +31,7 @@ class RSA():
 
         block_int = int.from_bytes(block, "little")
         decrypted_block_int = pow(block_int, self.d, self.n)
-        decrypted_block = decrypted_block_int.to_bytes(len(block), "little")
+        decrypted_block = decrypted_block_int.to_bytes(self.block_size_plaintext, "little")
         return decrypted_block
 
     def get_private_key(self) -> bytes:
