@@ -21,6 +21,8 @@ class Elgamal():
     def encrypt_block(self, block: bytes) -> (bytes, bytes):
         if (not hasattr(self, "g") or not hasattr(self, "y")):
             raise AttributeError("No public key")
+        if (not (len(block) == self.block_size_plaintext)):
+            raise BufferError("Invalid block length, expected " + self.block_size_plaintext + " bytes")
 
         k = random.randrange(1, 4)
 
@@ -34,6 +36,8 @@ class Elgamal():
     def decrypt_block(self, block: (bytes, bytes)) -> bytes:
         if (not hasattr(self, "p") or not hasattr(self, "x")):
             raise AttributeError("No private key")
+        if (not (len(block[0]) == self.block_size and len(block[1]) == self.block_size)):
+            raise BufferError("Invalid block length, expected " + self.block_size + " bytes")
 
         block_a_int = int.from_bytes(block[0], "little")
         block_b_int = int.from_bytes(block[1], "little")
