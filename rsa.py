@@ -55,15 +55,10 @@ class RSA():
         return public_key
 
     def generate_key(self):
-        while True:
-            p = util.get_prime(self.num_bits//2)
-            q = util.get_prime(self.num_bits//2)
+        p = util.get_prime(self.num_bits//2)
+        q = util.get_prime(self.num_bits//2)
 
-            self.n = p * q
-
-            # Ensure n is at least num_bits long in binary
-            if not (self.n.bit_length() < self.num_bits):
-                break
+        self.n = p * q
 
         tot = (p - 1) * (q - 1)
         self.e = pow(2, 16) + 1
