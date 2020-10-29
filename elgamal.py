@@ -63,7 +63,7 @@ class Elgamal():
         if (not hasattr(self, "p") or not hasattr(self, "x")):
             raise AttributeError("No private key")
         p_bytes = self.p.to_bytes(self.block_size, "little")
-        x_bytes = self.d.to_bytes(self.block_size, "little")
+        x_bytes = self.x.to_bytes(self.block_size, "little")
         private_key = p_bytes + x_bytes
         return private_key
 
