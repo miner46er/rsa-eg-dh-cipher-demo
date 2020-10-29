@@ -1,4 +1,5 @@
 import random
+import base64
 
 # 1024 bits constant for modulus
 PRIME = 127395837530650545756281042941338801224705787032847906276140539716804800147725223783492654614623319099907080271128074235077045467379916117567453253436945059098899192150895716852663313813338788543286759697857654121812437196900880932525836485292323142035006630048183820363390128785813351906033275700796868898923
@@ -10,11 +11,23 @@ class Elgamal():
         self.block_size_plaintext = self.block_size - 1
 
         if (public_key != None):
+            # Try parse key as base64
+            try:
+                public_key = base64.encodebytes(public_key)
+            except:
+                pass
+
             self.p = int.from_bytes(public_key[:self.block_size], "little")
             self.g = int.from_bytes(public_key[self.block_size:self.block_size * 2], "little")
             self.y = int.from_bytes(public_key[self.block_size * 2:], "little")
 
         if (private_key != None):
+            # Try parse key as base64
+            try:
+                private_key = base64.encodebytes(private_key)
+            except:
+                pass
+
             self.p = int.from_bytes(private_key[:self.block_size], "little")
             self.x = int.from_bytes(private_key[self.block_size:], "little")
 
@@ -62,6 +75,14 @@ class Elgamal():
         y_bytes = self.y.to_bytes(self.block_size, "little")
         public_key = p_bytes + g_bytes + y_bytes
         return public_key
+
+    def get_private_key_base64(self) -> bytes:
+        private_key = self.get_private_key()
+        return base64.encodebytes(private_key)
+
+    def get_public_key_base64(self) -> bytes:
+        public_key = self.get_public_key()
+        return base64.encodebytes(public_key)
 
     def generate_key(self):
         self.p = PRIME

@@ -1,4 +1,5 @@
 import util
+import base64
 
 class RSA():
     def __init__(self, private_key: bytes = None, public_key: bytes = None):
@@ -9,10 +10,22 @@ class RSA():
         self.e = pow(2, 16) + 1
 
         if (public_key != None):
+            # Try parse key as base64
+            try:
+                public_key = base64.encodebytes(public_key)
+            except:
+                pass
+
             self.n = int.from_bytes(public_key[:self.block_size], "little")
             self.e = int.from_bytes(public_key[self.block_size:], "little")
 
         if (private_key != None):
+            # Try parse key as base64
+            try:
+                private_key = base64.encodebytes(private_key)
+            except:
+                pass
+
             self.n = int.from_bytes(private_key[:self.block_size], "little")
             self.d = int.from_bytes(private_key[self.block_size:], "little")
 
@@ -53,6 +66,14 @@ class RSA():
         e_bytes = self.e.to_bytes(self.block_size, "little")
         public_key = n_bytes + e_bytes
         return public_key
+
+    def get_private_key_base64(self) -> bytes:
+        private_key = self.get_private_key()
+        return base64.encodebytes(private_key)
+
+    def get_public_key_base64(self) -> bytes:
+        public_key = self.get_public_key()
+        return base64.encodebytes(public_key)
 
     def generate_key(self):
         p = util.get_prime(self.num_bits//2)
