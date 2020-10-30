@@ -12,7 +12,7 @@ class RSA():
         if (public_key != None):
             # Try parse key as base64
             try:
-                public_key = base64.encodebytes(public_key)
+                public_key = base64.decodebytes(public_key)
             except:
                 pass
 
@@ -22,7 +22,7 @@ class RSA():
         if (private_key != None):
             # Try parse key as base64
             try:
-                private_key = base64.encodebytes(private_key)
+                private_key = base64.decodebytes(private_key)
             except:
                 pass
 
