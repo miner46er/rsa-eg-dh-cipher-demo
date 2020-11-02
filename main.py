@@ -48,10 +48,10 @@ class ApplicationWindow(QMainWindow):
 
         # Diffie-Hellman
         self.ui.pushButton.clicked.connect(self.dh_generate_n)
-        self.ui.pushButton_2.clicked.connect(self.dh_generate_n)
-        self.ui.pushButton_3.clicked.connect(self.dh_generate_n)
-        self.ui.pushButton_4.clicked.connect(self.dh_generate_n)
-        self.ui.pushButton_9.clicked.connect(self.dh_generate_n)
+        self.ui.pushButton_2.clicked.connect(self.dh_generate_g)
+        self.ui.pushButton_3.clicked.connect(self.dh_generate_x)
+        self.ui.pushButton_4.clicked.connect(self.dh_generate_y)
+        self.ui.pushButton_9.clicked.connect(self.dh_generate_k)
 
     def rsa_encrypt_browse_input(self):
         filename, _ = QFileDialog.getOpenFileName(self, 'Open file', 
@@ -334,28 +334,28 @@ class ApplicationWindow(QMainWindow):
             file.write(self.ui.plainTextEdit_public_key_4.toPlainText())
 
     def dh_generate_n(self):
-        self.ui.plainTextEdit_input_file_5.setPlainText(DiffieHellman.get_n())
+        self.ui.plainTextEdit_input_file_5.setPlainText(str(DiffieHellman.get_n()))
 
     def dh_generate_g(self):
         n = int(self.ui.plainTextEdit_input_file_5.toPlainText())
-        self.ui.plainTextEdit_input_file_6.setPlainText(DiffieHellman.get_g(n))
+        self.ui.plainTextEdit_input_file_6.setPlainText(str(DiffieHellman.get_g(n)))
 
     def dh_generate_x(self):
         n = int(self.ui.plainTextEdit_input_file_5.toPlainText())
-        self.ui.plainTextEdit_input_file_7.setPlainText(DiffieHellman.get_x(n))
+        self.ui.plainTextEdit_input_file_7.setPlainText(str(DiffieHellman.get_x(n)))
 
     def dh_generate_y(self):
         n = int(self.ui.plainTextEdit_input_file_5.toPlainText())
         g = int(self.ui.plainTextEdit_input_file_6.toPlainText())
         x = int(self.ui.plainTextEdit_input_file_7.toPlainText())
-        self.ui.plainTextEdit_input_file_8.setPlainText(DiffieHellman.get_Y(n, g, x))
+        self.ui.plainTextEdit_input_file_8.setPlainText(str(DiffieHellman.get_Y(n, g, x)))
 
     def dh_generate_k(self):
         n = int(self.ui.plainTextEdit_input_file_5.toPlainText())
         g = int(self.ui.plainTextEdit_input_file_6.toPlainText())
         x = int(self.ui.plainTextEdit_input_file_7.toPlainText())
         y = int(self.ui.plainTextEdit_input_file_8.toPlainText())
-        self.ui.plainTextEdit_input_file_9.setPlainText(DiffieHellman.get_symetric_key(n, g, x, y))
+        self.ui.plainTextEdit_input_file_9.setPlainText(str(DiffieHellman.get_symetric_key(n, g, x, y)))
 
 def main():
     app = QApplication(sys.argv)
