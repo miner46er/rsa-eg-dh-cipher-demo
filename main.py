@@ -154,7 +154,7 @@ class ApplicationWindow(QMainWindow):
 
         with open(key_path, "rb") as file:
             key = file.read()
-            cipher = RSA(public_key = key)
+            cipher = RSA(private_key = key)
 
             mode = ECB(cipher)
 
@@ -294,7 +294,7 @@ class ApplicationWindow(QMainWindow):
 
         with open(key_path, "rb") as file:
             key = file.read()
-            cipher = Elgamal(public_key = key)
+            cipher = Elgamal(private_key = key)
 
             mode = ECB(cipher)
 
